@@ -3,16 +3,16 @@ import { FaArrowRight, FaGlobe, FaBolt } from "react-icons/fa";
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative w-full mb-7 lg:mb-40 flex flex-col md:flex-row items-center justify-between px-17 py-15 md:pt-35 lg:pt-40  bg-white overflow-hidden">
+    <section id="hero" className="relative w-full mb-7 lg:mb-40 flex flex-col md:flex-row items-center justify-between px-17 py-15 pt-30 md:pt-30 lg:pt-60  bg-white overflow-hidden">
       {/* Background World Map */}
       <img
         src="src/assets/worldmap.png"
         alt="World Map"
-        className="absolute top-10 left-20 w-full h-full object-contain opacity-85"
+        className="absolute top-30 left-20 w-full h-full object-contain opacity-85"
       />
       
       {/* Text Content */}
-      <div className="md:w-1/3 text-left space-y-6 z-10 md:pl-20">
+      <div className="md:w-1/3 text-left space-y-6 z-10 md:pl-25">
         <motion.h1
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -31,14 +31,15 @@ export default function Hero() {
         </motion.p>
         
         <div className="flex space-x-6">
-          <motion.button
-              whileHover={{ x: 10, backgroundColor: "#04223E" }}
-              transition={{ duration: 0.3 }}
-              className="flex items-center bg-primary text-white xxs:px-3 xxs:py-2 lg:px-6 lg:py-3 rounded-lg space-x-2 text-base lg:text-lg font-bold shadow-lg cursor-pointer"
-              >       
-              <span>Book Now</span>
-          </motion.button>
-          
+          <a href="/login">
+            <motion.button
+                whileHover={{ x: 10, backgroundColor: "#04223E" }}
+                transition={{ duration: 0.3 }}
+                className="flex items-center bg-primary text-white xxs:px-3 xxs:py-2 lg:px-6 lg:py-3 rounded-lg space-x-2 text-base lg:text-lg font-bold shadow-lg cursor-pointer"
+                >       
+                <span>Book Now</span>
+            </motion.button>
+          </a>
           <a href="/about" className="flex items-center space-x-2 text-gray-900 font-semibold relative group hover:text-primary transition-all">
             <span>Learn More</span>
             <FaArrowRight />

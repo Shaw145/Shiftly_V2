@@ -51,6 +51,10 @@
   --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 /* Global Styles */
 body {
   font-family: "Poppins","DM Sans", sans-serif;
@@ -87,6 +91,27 @@ body {
   }
 }
 
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 9px; /* Adjust width */
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000; /* Off-white background */
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary); /* Red color */
+  transition: background 0.3s ease-in-out;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #b6040a; /* Dark blue on hover */
+  cursor: pointer;
+}
+
+
 /* Custom Clip Path for Angled Background */
 .clip-path-angle {
   clip-path: polygon(0 0, 90% 0, 100% 100%, 0% 100%);
@@ -118,7 +143,6 @@ body {
   }
 }
 
-
 /* Ensure the reviews container doesn't overflow */
 .overflow-x-hidden {
   overflow-x: hidden;
@@ -133,4 +157,18 @@ body {
   .flex-shrink-0 {
     scroll-snap-align: start;
   }
+}
+
+/* Pre-loader Animation */
+@keyframes moveTruck {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-moveTruck {
+  animation: moveTruck 2s linear infinite;
 }

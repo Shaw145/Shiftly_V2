@@ -8,7 +8,7 @@ const ChatbotButton = ({ isOpen, toggleChatbox }) => {
       {/* Chatbot Button */}
       <motion.button
         onClick={toggleChatbox}
-        className="fixed bottom-24 right-6 bg-red-600 text-white p-4 rounded-full shadow-lg hover:bg-red-700 transition-all duration-300 hover:scale-110 z-50" //Whole chatbot modification
+        className="chatbotButton fixed bottom-24 right-6 bg-red-600 text-white p-4 rounded-full shadow-lg hover:bg-red-700 transition-all duration-300 hover:scale-110 z-50 cursor-pointer" //Whole chatbot modification
         whileHover={{ scale: 1.1 }} // Hover animation
         whileTap={{ scale: 0.9 }} // Click animation
         title="Chat with us"

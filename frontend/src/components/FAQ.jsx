@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { FaPlus, FaMinus } from "react-icons/fa";
 
 const faqData = [
   {
@@ -96,7 +96,7 @@ const FAQSection = ({toggleChatbox}) => {
                   {faq.question}
                 </h3>
                 <span className="text-gray-700">
-                  {activeIndex === index ? <FaChevronUp /> : <FaChevronDown />}
+                  {activeIndex === index ? <FaMinus /> : <FaPlus />}
                 </span>
               </button>
 

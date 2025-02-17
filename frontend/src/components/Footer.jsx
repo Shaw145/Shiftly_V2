@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaFacebookF, FaInstagram, FaTiktok, FaXTwitter, FaArrowRight } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaLinkedin, FaXTwitter, FaArrowRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
 
 export default function Footer() {
@@ -13,7 +13,7 @@ export default function Footer() {
       } else if (window.innerWidth < 1024) {
         setTruckSpeeds({ truck1: 7, truck2: 7, truck3: 12 }); // Medium speed
       } else {
-        setTruckSpeeds({ truck1: 15, truck2: 11, truck3: 21 }); // Normal speed
+        setTruckSpeeds({ truck1: 16, truck2: 11, truck3: 21 }); // Normal speed
       }
     };
     
@@ -35,13 +35,24 @@ export default function Footer() {
           <img src="src/assets/Shiftly_logo.png" alt="Shiftly" className="w-30 lg:w-40 text-center mx-auto" />
           <p className="text-lg">Technology-driven transport platform offering seamless booking, real-time tracking, and secure goods delivery.</p>
           <div className="flex space-x-3 mt-4">
-            {["facebook", "x-twitter", "instagram", "tiktok"].map((platform, index) => (
-              <div key={index} className="bg-accent p-2 rounded transition-all duration-300 hover:bg-red-500 hover:-translate-y-1 hover:text-white cursor-pointer">
-                {platform === "facebook" && <FaFacebookF className="text-xl text-gray-900 hover:text-white" />}
-                {platform === "x-twitter" && <FaXTwitter className="text-xl text-gray-900 hover:text-white" />}
-                {platform === "instagram" && <FaInstagram className="text-xl text-gray-900 hover:text-white" />}
-                {platform === "tiktok" && <FaTiktok className="text-xl text-gray-900 hover:text-white" />}
-              </div>
+            {[
+              { name: "facebook", link: "https://facebook.com/shiftly" },
+              { name: "x-twitter", link: "https://x.com/shiftly" },
+              { name: "instagram", link: "https://instagram.com/shiftly" },
+              { name: "linkedin", link: "https://linkedin.com/in/shiftly" }
+            ].map((platform, index) => (
+              <a 
+                key={index} 
+                href={platform.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="bg-accent p-2 rounded transition-all duration-300 hover:bg-red-500 hover:-translate-y-1 hover:text-white cursor-pointer"
+              >
+                {platform.name === "facebook" && <FaFacebookF className="text-xl text-gray-900 hover:text-white" />}
+                {platform.name === "x-twitter" && <FaXTwitter className="text-xl text-gray-900 hover:text-white" />}
+                {platform.name === "instagram" && <FaInstagram className="text-xl text-gray-900 hover:text-white" />}
+                {platform.name === "linkedin" && <FaLinkedin className="text-xl text-gray-900 hover:text-white" />}
+              </a>
             ))}
           </div>
         </div>
@@ -50,10 +61,16 @@ export default function Footer() {
         <div>
           <h3 className="text-xl lg:text-2xl font-bold mb-4 text-text-heading border-b-2 border-primary inline-block">Company</h3>
           <ul className="space-y-3 font-bold">
-            {["About Us", "Our Services", "Calculate Price", "Privacy Policy", "Contact Us"].map((link, index) => (
+            {[
+              { name: "About Us", path: "/about" },
+              { name: "Our Services", path: "/services" },
+              { name: "Calculate Price", path: "#CalculatePrice" },
+              { name: "Privacy Policy", path: "/privacy-policy" },
+              { name: "Contact Us", path: "/contact" }
+            ].map((item, index) => (
               <li key={index}>
                 <span className="text-primary lg:text-2xl">&raquo;</span> 
-                <a href="#" className="lg:text-lg hover:text-primary ml-2">{link}</a>
+                <a href={item.path} className="lg:text-lg hover:text-primary ml-2">{item.name}</a>
               </li>
             ))}
           </ul>
@@ -85,7 +102,7 @@ export default function Footer() {
             <input type="email" placeholder="Your Email" className="bg-transparent flex-1 px-2 focus:outline-none lg:text-lg" />
             <button className="bg-red-500 text-white p-3 rounded-lg cursor-pointer hover:bg-red-700 hover:-translate-y-1"><FaArrowRight /></button>
           </div>
-          <p className="mt-4 text-lg">Subscribe to us and get all the benefits from today.</p>
+          <p className="mt-4 text-base">Subscribe to us and get all the benefits from today.</p>
         </div>
       </div>
 
@@ -96,7 +113,7 @@ export default function Footer() {
           <motion.img 
             key={truckSpeeds.truck1}
             src="src/assets/truck-1.png" 
-            className="w-32 h-auto absolute bottom-0" 
+            className="w-24 lg:w-28 h-auto absolute bottom-0" 
             alt="Truck 1"
             animate={{ x: ["100vw", "-100vw"] }} 
             transition={{ repeat: Infinity, duration: truckSpeeds.truck1, ease: "linear" }} 
@@ -106,7 +123,7 @@ export default function Footer() {
           <motion.img 
             key={truckSpeeds.truck2}
             src="src/assets/truck-2.png" 
-            className="w-28 h-auto absolute bottom-0" 
+            className="w-24 lg:w-28 h-auto absolute bottom-0" 
             alt="Truck 2"
             animate={{ x: ["-100vw", "100vw"] }} 
             transition={{ repeat: Infinity, duration: truckSpeeds.truck2, ease: "linear" }} 
@@ -116,7 +133,7 @@ export default function Footer() {
           <motion.img 
             key={truckSpeeds.truck3}
             src="src/assets/truck-3.png" 
-            className="w-36 h-auto absolute bottom-0" 
+            className="w-26 lg:w-36 h-auto absolute bottom-0" 
             alt="Truck 3"
             animate={{ x: ["100vw", "-100vw"] }} 
             transition={{ repeat: Infinity, duration: truckSpeeds.truck3, ease: "linear" }} 
@@ -127,7 +144,7 @@ export default function Footer() {
       {/* Copyright Section */}
       <div className="bg-body-dark text-white text-center py-6 lg:text-[17px] relative z-10">
         <span>© {new Date().getFullYear()} Shiftly, All Rights Reserved. Design By </span>
-        <a href="https://linkedin.com/in/sumanshaw" target="_blank" 
+        <a href="https://linkedin.com/in/codecrafters" target="_blank" 
            className="text-primary font-bold cursor-pointer underline inline-block">
            @CodeCrafters
         </a>
