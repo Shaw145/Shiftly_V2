@@ -101,6 +101,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
+
 // Add a route to check username availability
 router.get("/check-username", async (req, res) => {
   const { username } = req.query;
@@ -112,5 +113,7 @@ router.get("/check-username", async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 });
+
+
 
 module.exports = router;

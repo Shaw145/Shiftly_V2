@@ -10,7 +10,7 @@ const app = express();
 
 // Enable CORS
 app.use(cors({
-  origin: "http://localhost:5173", // Replace with your frontend URL
+  origin: "*", // Replace with your frontend URL
   credentials: true,
 }));
 
@@ -24,9 +24,11 @@ app.get("/", (req, res) => {
 
 // Routes
 const authRoutes = require("./routes/authRoutes");
-const emailRoutes = require("./routes/emailRoutes"); // Add this line
-app.use("/api/auth", authRoutes);
+const emailRoutes = require("./routes/emailRoutes");
+const passwordRoutes = require("./routes/passwordRoutes");
+app.use("/api/auth", authRoutes); // Mount authRoutes under /api/auth
 app.use("/api/auth", emailRoutes); // Mount emailRoutes under /api/auth
+app.use("/api/auth", passwordRoutes); // Mount password routes under /api/auth
 
 // Start the server
 const PORT = process.env.PORT || 5000;

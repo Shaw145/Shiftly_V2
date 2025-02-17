@@ -6,8 +6,10 @@ const UserSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  otp: { type: String }, // Store OTP for email verification
-  isEmailVerified: { type: Boolean, default: false }, // Track email verification status
+  otp: { type: String }, // For email verification
+  isEmailVerified: { type: Boolean, default: false },
+  resetPasswordToken: { type: String }, // Add this field
+  resetPasswordExpires: { type: Date }, // Add this field
   createdAt: { type: Date, default: Date.now },
 });
 

@@ -105,7 +105,7 @@ const Login = () => {
             />
             <span className="text-sm text-white">Remember me</span>
           </div>
-          <button type="submit" className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-700">
+          <button type="submit" className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-700 cursor-pointer">
             Log in
           </button>
         </form>

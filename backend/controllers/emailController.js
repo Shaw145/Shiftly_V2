@@ -36,10 +36,6 @@ const verifyOTP = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // Log the OTPs for debugging
-    console.log("Stored OTP:", tempUser.otp);
-    console.log("Entered OTP:", otp);
-
     // Compare OTPs
     if (tempUser.otp !== otp.toString().trim()) {
       return res.status(400).json({ error: "Invalid OTP" });
