@@ -3,7 +3,6 @@ import { FaCheck, FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import authBg from "../assets/auth-bg.jpg";
 
-
 const Signup = () => {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
@@ -24,7 +23,7 @@ const Signup = () => {
     if (username) {
       const checkUsername = async () => {
         try {
-          const response = await fetch(`https://shiftly-backend.onrender.com/api/auth/check-username?username=${username}`);
+          const response = await fetch(`http://localhost:5000/api/auth/check-username?username=${username}`);
           const data = await response.json();
           setIsUsernameAvailable(data.isAvailable);
         } catch (error) {
@@ -109,6 +108,7 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: `url(${authBg})` }}>
+      <div className="w-full max-w-md bg-[#151616af] p-8 rounded-lg shadow-lg mx-4 mt-29 mb-8">
         <h1 className="text-3xl font-bold text-center mb-6 text-white">Sign Up</h1>
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
