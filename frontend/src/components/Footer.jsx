@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { FaFacebookF, FaInstagram, FaLinkedin, FaXTwitter, FaArrowRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
+import worldMap from "../assets/worldmap.png";
+import truck1 from "../assets/truck-1.png";
+import truck2 from "../assets/truck-2.png";
+import truck3 from "../assets/truck-3.png";
+import footerShape from "../assets/footer-shape.png";
+import ShiftlyLogo from "../assets/Shiftly_logo.png";
 
 export default function Footer() {
   const [truckSpeeds, setTruckSpeeds] = useState({ truck1: 7, truck2: 9, truck3: 11 });
@@ -26,13 +32,13 @@ export default function Footer() {
   return (
     <footer className="relative w-full bg-white text-gray-900 overflow-hidden">
       {/* World Map Background */}
-      <div className="absolute inset-0 bg-[url('src/assets/worldmap.png')] bg-contain bg-center opacity-80 bg-no-repeat"></div>
+      <div className="absolute inset-0 bg-contain bg-center opacity-80 bg-no-repeat" style={{ backgroundImage: `url(${worldMap})` }}></div>
 
       {/* Footer Content */}
       <div className="relative max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 text-left">
         {/* Company Info */}
         <div>
-          <img src="src/assets/Shiftly_logo.png" alt="Shiftly" className="w-30 lg:w-40 text-center mx-auto" />
+          <img src={ShiftlyLogo} alt="Shiftly" className="w-30 lg:w-40 text-center mx-auto" />
           <p className="text-lg">Technology-driven transport platform offering seamless booking, real-time tracking, and secure goods delivery.</p>
           <div className="flex space-x-3 mt-4">
             {[
@@ -107,12 +113,12 @@ export default function Footer() {
       </div>
 
       {/* Footer Shape with Trucks */}
-      <div className="relative w-full bg-[url('src/assets/footer-shape.png')] bg-cover bg-bottom bg-no-repeat h-24 md:h-32 mt-8 overflow-hidden">
+      <div className="relative w-full bg-cover bg-bottom bg-no-repeat h-24 md:h-32 mt-8 overflow-hidden" style={{ backgroundImage: `url(${footerShape})` }}>
         <div className="absolute bottom-0 w-full h-full flex items-end">
           {/* 🚛 Truck 1 - Left to Right */}
           <motion.img 
             key={truckSpeeds.truck1}
-            src="src/assets/truck-1.png" 
+            src={truck1}
             className="w-24 lg:w-28 h-auto absolute bottom-0" 
             alt="Truck 1"
             animate={{ x: ["100vw", "-100vw"] }} 
@@ -122,7 +128,7 @@ export default function Footer() {
           {/* 🚚 Truck 2 - Right to Left */}
           <motion.img 
             key={truckSpeeds.truck2}
-            src="src/assets/truck-2.png" 
+            src={truck2}
             className="w-24 lg:w-28 h-auto absolute bottom-0" 
             alt="Truck 2"
             animate={{ x: ["-100vw", "100vw"] }} 
@@ -132,7 +138,7 @@ export default function Footer() {
           {/* 🚛 Truck 3 - Left to Right */}
           <motion.img 
             key={truckSpeeds.truck3}
-            src="src/assets/truck-3.png" 
+            src={truck3}
             className="w-26 lg:w-36 h-auto absolute bottom-0" 
             alt="Truck 3"
             animate={{ x: ["100vw", "-100vw"] }} 
