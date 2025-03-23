@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import worldMap from "../assets/worldmap.png"; 
 
 const CalculatePrice = () => {
   const [distance, setDistance] = useState(0);
@@ -130,7 +131,7 @@ const CalculatePrice = () => {
     >
       {/* Background Image */}
       <img
-        src="src/assets/worldmap.png" // Add your image path here
+        src={worldMap} // Add your image path here
         alt="World Map"
         className="absolute top-30 left-7 inset-0 w-full h-150 object-contain z-15"
       />
