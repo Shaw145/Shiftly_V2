@@ -53,7 +53,7 @@ const sendWelcomeEmail = async (email, fullName) => {
             <p style="color: #555;">We're thrilled to have you on board. <strong>Shiftly</strong> is your go-to platform for seamless transportation of goods across India.</p>
             <p style="color: #555;">🚚 <strong>What’s Next?</strong></p>
             <ul style="text-align: left; color: #555; margin-left: 20px;">
-                <li>Log in to your account: <a href="http://localhost:5173/login" style="color: #ff4444; text-decoration: none;">Login to Shiftly</a></li>
+                <li>Log in to your account: <a href="https://shiftly-frontend.onrender.com/login" style="color: #ff4444; text-decoration: none;">Login to Shiftly</a></li>
                 <li>Book your first transport</li>
                 <li>Track your shipments in real time</li>
             </ul>
