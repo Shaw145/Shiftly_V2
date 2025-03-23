@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import authBg from "../assets/auth-bg.jpg";
 
 const Login = () => {
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
@@ -15,7 +16,7 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("https://shiftly-backend.onrender.com/api/auth/login", {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,7 +54,7 @@ const Login = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('src/assets/auth-bg.jpg')" }}>
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: `url(${authBg})` }}>
       <div className="w-full max-w-md bg-[#151616af] p-8 rounded-lg shadow-lg mx-4 mt-29 mb-10">
         <h1 className="text-3xl font-bold text-center mb-6 text-white">Login</h1>
 
