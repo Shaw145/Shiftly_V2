@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { FaEnvelope, FaPhone } from "react-icons/fa";
+import customerCare from "../assets/customercare.png";
 
 export default function HaveAQuestion() {
   return (
@@ -53,7 +54,7 @@ export default function HaveAQuestion() {
             animate={{ scale: 1 }}
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.5 }}
-            src="src/assets/customercare.png"
+            src={customerCare}
             alt="Customer Support"
             className="w-64 md:w-72 lg:w-80 rounded-lg shadow-lg"
           />
