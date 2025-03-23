@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import truckLoader from "../assets/truck-loader.gif";
 
 export default function Preloader() {
   const [loading, setLoading] = useState(true);
@@ -32,7 +33,7 @@ export default function Preloader() {
           transition={{ duration: 0.5, ease: "easeOut" }}
         >
           <img
-            src="src/assets/truck-loader.gif" // Path to GIF
+            src={truckLoader} // Path to GIF
             alt="Loading..."
             className="w-30 lg:w-40"
           />
