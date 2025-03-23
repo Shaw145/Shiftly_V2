@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FaBars, FaTimes, FaTruck, FaUser } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useLocation, Link } from "react-router-dom";
+import logoLight from "../assets/logo-light.png";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,7 +22,7 @@ export default function Navbar() {
         {/* Logo Image */}
         <a href="/home">
           <img
-            src="src/assets/logo-light.png"
+            src={logoLight}
             alt="Shiftly Logo"
             className="h-10 xs:h-13 md:h-14 lg:h-12"
           />
