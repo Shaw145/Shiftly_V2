@@ -1,12 +1,16 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import team1 from "../assets/team1.jpg";
+import team2 from "../assets/team2.jpg";
+import team3 from "../assets/team3.jpg";
+import team4 from "../assets/team4.jpg";
 
 const teamMembers = [
-  { name: "John Doe", role: "CEO", image: "src/assets/team1.jpg" },
-  { name: "Jane Smith", role: "CTO", image: "src/assets/team2.jpg" },
-  { name: "Alice Johnson", role: "COO", image: "src/assets/team3.jpg" },
-  { name: "Bob Brown", role: "CFO", image: "src/assets/team4.jpg" },
-  { name: "Charlie Davis", role: "CMO", image: "src/assets/team2.jpg" },
+  { name: "John Doe", role: "CEO", image: team1 },
+  { name: "Jane Smith", role: "CTO", image: team2 },
+  { name: "Alice Johnson", role: "COO", image: team3 },
+  { name: "Bob Brown", role: "CFO", image: team4 },
+  { name: "Charlie Davis", role: "CMO", image: team2 },
 ];
 
 export default function TeamMembers() {
