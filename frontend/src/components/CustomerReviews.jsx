@@ -3,67 +3,78 @@ import { useState, useRef } from "react"; // Added useRef for touch handling
 import { FaStar, FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import ScrollingFeatures from "./ScrollingFeatures";
 import StatsSection from "./StatsSection";
+import customer1 from "../assets/Customer 1.png"; // Import customer images
+import customer2 from "../assets/Customer 2.jpg";
+import customer3 from "../assets/Customer 3.jpg";
+import customer4 from "../assets/Customer 4.jpg";
+import customer5 from "../assets/Customer 5.jpg";
+import customer6 from "../assets/Customer 6.jpg";
+import customer7 from "../assets/Customer 7.jpg";
+import customer8 from "../assets/Customer 8.jpg";
+import customer9 from "../assets/Customer 9.png";
+import customer10 from "../assets/Customer 10.png";
+import worldMap from "../assets/worldmap.png"; // Import truck image
 
 const reviews = [
   {
     name: "Amit Sharma",
     text: "Amazing service! Everything was handled professionally, and my goods arrived in perfect condition. Will definitely recommend to others.",
     rating: 5,
-    image: "src/assets/Customer 1.png",
+    image: customer1,
   },
   {
     name: "Sourav Banerjee",
     text: "Great experience! The transport was smooth, and customer support was very helpful throughout the process. Easy to track my shipment as well!",
     rating: 4,
-    image: "src/assets/Customer 2.jpg",
+    image: customer2,
   },
   {
     name: "Neha Das",
     text: "Affordable and efficient. Booking was easy, and tracking my shipment in real-time was a big plus. Definitely a great service!",
     rating: 5,
-    image: "src/assets/Customer 3.jpg",
+    image: customer3,
   },
   {
     name: "Indranil Basu",
     text: "Good experience overall. The pricing was fair, but there is room for improvement in communication. Would still use again!",
     rating: 3,
-    image: "src/assets/Customer 4.jpg",
+    image: customer4,
   },
   {
     name: "Ipsita Dutta",
     text: "The best transport service I've ever used! The drivers were professional, and the process was hassle-free. Highly recommend!",
     rating: 5,
-    image: "src/assets/Customer 5.jpg",
+    image: customer5,
   },
   {
     name: "Ritwik Sen",
     text: "Professional and punctual service! The driver arrived on time and handled my goods with care. Will be using again soon!",
     rating: 4,
-    image: "src/assets/Customer 6.jpg",
+    image: customer6,
   },
   {
     name: "Madhumita Ghosh",
     text: "Loved the tracking feature! It gave me peace of mind knowing exactly where my shipment was. So convenient and reliable!",
     rating: 5,
-    image: "src/assets/Customer 7.jpg",
+    image: customer7,
   },
   {
     name: "Rohan Mehta",
     text: "Fair pricing, great support, and timely delivery. Highly recommend Shiftly for transportation needs. Reliable service!",
     rating: 4,
-    image: "src/assets/Customer 8.jpg",
+    image: customer8,
   },
   {
     name: "Eshana Das",
-    text: "Quick and safe transport. The entire process was seamless, and I’ll definitely use this service again! Best logistics company so far!",
+    text: "Quick and safe transport. The entire process was seamless, and I'll definitely use this service again! Best logistics company so far!",
     rating: 5,
-    image: "src/assets/Customer 9.png",
+    image: customer9,
   },
   {
     name: "Arjun Patel",
     text: "Easy booking, excellent service, and the driver was very courteous. Shiftly is now my go-to transport service!",
     rating: 5,
-    image: "src/assets/Customer 10.png",
+    image: customer10,
   },
 ];
 
@@ -123,7 +134,7 @@ const CustomerReviews = () => {
 
         <section className="relative w-full py-16 px-6 md:px-20 bg-body-dark text-center overflow-hidden">
           <img
-            src="src/assets/worldmap.png"
+            src={worldMap}
             alt="World Map"
             className="absolute top-10 left-20 w-full h-full object-contain opacity-100"
           />
