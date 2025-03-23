@@ -26,7 +26,7 @@ router.post("/forgot-password", async (req, res) => {
     await user.save();
 
     // Send the password reset email
-    const resetLink = `http://localhost:5173/reset-password?token=${resetToken}`;
+    const resetLink = `https://shiftly-frontend.onrender.com/reset-password?token=${resetToken}`;
     await sendPasswordResetEmail(user.email, user.fullName, resetLink);
 
     res.status(200).json({ message: "Password reset link sent to your email." });
