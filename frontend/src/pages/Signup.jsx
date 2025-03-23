@@ -23,7 +23,7 @@ const Signup = () => {
     if (username) {
       const checkUsername = async () => {
         try {
-          const response = await fetch(`http://localhost:5000/api/auth/check-username?username=${username}`);
+          const response = await fetch(`https://shiftly-backend.onrender.com/api/auth/check-username?username=${username}`);
           const data = await response.json();
           setIsUsernameAvailable(data.isAvailable);
         } catch (error) {
@@ -77,7 +77,7 @@ const Signup = () => {
     setIsLoading(true); // Start loading
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/signup", {
+      const response = await fetch("https://shiftly-backend.onrender.com/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
