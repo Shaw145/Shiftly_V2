@@ -16,7 +16,7 @@ const VerifyEmail = () => {
     setIsLoading(true); // Start loading
 
     try {
-      const response = await fetch("http://localhost:5000/api/auth/verify-otp", {
+      const response = await fetch("https://shiftly-backend.onrender.com/api/auth/verify-otp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
