@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { FaUsers, FaIdBadge, FaShippingFast } from "react-icons/fa";
+import worldMap from "../assets/worldmap.png"; // Import the world map image
 
 export default function StatsSection() {
   return (
     <motion.div
-      className="absolute left-1/2 transform -translate-x-1/2 -bottom-5 md:-bottom-8 w-[90%] md:w-[75%] bg-white shadow-[0px_15px_40px_rgba(0,0,0,0.15)] rounded-xl py-12 px-6 md:px-29 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left border border-gray-200 z-20 "
+      className="absolute left-1/2 transform -translate-x-1/2 -bottom-5 md:-bottom-8 w-[90%] md:w-[75%] bg-white shadow-[0px_15px_40px_rgba(0,0,0,0.15)] rounded-xl py-12 px-6 md:px-29 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left border border-gray-200 z-20"
       style={{
-        backgroundImage: "url('src/assets/worldmap.png')",
+        backgroundImage: `url(${worldMap})`, // Use the imported world map image
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -29,7 +30,11 @@ export default function StatsSection() {
               className="absolute inset-0 w-full h-full bg-gray-200/50 rounded-xl blur-md"
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse" }}
+              transition={{
+                duration: 1.5,
+                repeat: Infinity,
+                repeatType: "reverse",
+              }}
             />
             <stat.icon className="relative z-10 text-primary text-4xl md:text-5xl" />
           </div>
