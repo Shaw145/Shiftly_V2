@@ -11,7 +11,7 @@ const app = express();
 // Enable CORS
 app.use(
   cors({
-    origin: "http://localhost:5173", // Your frontend URL
+    origin: "https://shiftly-frontend.onrender.com", // Your frontend URL
     credentials: true,
   })
 );
