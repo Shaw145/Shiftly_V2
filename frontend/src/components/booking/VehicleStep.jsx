@@ -1,6 +1,10 @@
 import { useEffect, useMemo } from "react";
-import { FaTruck, FaExclamationTriangle } from "react-icons/fa";
+import { FaExclamationTriangle } from "react-icons/fa";
 import { determineVehicleType } from "../../utils/vehicleSelector";
+import miniTruck from "../../assets/mini-truck.png";
+import tempo from "../../assets/tempo.png";
+import largeTruck from "../../assets/large-truck.png";
+import largeContainerTruck from "../../assets/large-container-truck.jpg";
 
 const VehicleStep = ({ formData, setFormData, errors }) => {
   const vehicles = [
@@ -10,7 +14,7 @@ const VehicleStep = ({ formData, setFormData, errors }) => {
       description: "Tata Ace - Small Loads",
       capacity: "Up to 500kg",
       ideal: "Small household items, few boxes",
-      image: "src/assets/mini-truck.png",
+      image: miniTruck,
       maxWeight: 500,
     },
     {
@@ -19,7 +23,7 @@ const VehicleStep = ({ formData, setFormData, errors }) => {
       description: "Mahindra Bolero Pickup - Medium Loads",
       capacity: "Up to 1000kg",
       ideal: "Medium furniture, appliances",
-      image: "src/assets/tempo.png",
+      image: tempo,
       maxWeight: 1000,
     },
     {
@@ -28,7 +32,7 @@ const VehicleStep = ({ formData, setFormData, errors }) => {
       description: "14ft Truck - Heavy Loads",
       capacity: "Up to 2500kg",
       ideal: "Full house moving, large items",
-      image: "src/assets/large-truck.png",
+      image: largeTruck,
       maxWeight: 2500,
     },
     {
@@ -37,7 +41,7 @@ const VehicleStep = ({ formData, setFormData, errors }) => {
       description: "20-32ft Trucks - Bulk Transport",
       capacity: "Up to 5000kg",
       ideal: "Industrial goods, bulk materials",
-      image: "src/assets/large-container-truck.jpg",
+      image: largeContainerTruck,
       maxWeight: 5000,
     },
   ];
