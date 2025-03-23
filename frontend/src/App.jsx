@@ -18,6 +18,7 @@ import DashboardLayout from "./components/DashboardLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MyBookings from "./pages/MyBookings";
 import BookingDetailPage from "./pages/BookingDetailPage";
+import NotFound from "./pages/NotFound";
 
 const AppWrapper = () => {
   const location = useLocation();
@@ -26,9 +27,23 @@ const AppWrapper = () => {
     location.pathname.startsWith("/book-transport") ||
     location.pathname.startsWith("/my-bookings");
 
+  // Check if the current route exists in our defined routes
+  // const isNotFoundPage = ![
+  //   "/",
+  //   "/login",
+  //   "/signup",
+  //   "/verify-email",
+  //   "/forgot-password",
+  //   "/reset-password",
+  //   "/dashboard",
+  //   "/book-transport",
+  //   "/my-bookings",
+  // ].includes(location.pathname);
+  const isNotFoundPage = location.pathname === "/404";
+
   return (
     <>
-      {!isDashboardRoute && <Navbar />}
+      {!isDashboardRoute && !isNotFoundPage && <Navbar />}
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
@@ -62,8 +77,11 @@ const AppWrapper = () => {
             } 
           /> */}
         </Route>
+
+        {/* 404 Page - This route will catch all unmatched routes */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
-      {!isDashboardRoute && <Footer />}
+      {!isDashboardRoute && !isNotFoundPage && <Footer />}
     </>
   );
 };
