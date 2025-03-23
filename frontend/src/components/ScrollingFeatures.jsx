@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import linePattern from "../assets/line-pattern.png";
 
 export default function ScrollingFeatures() {
     const features = [
@@ -35,7 +36,7 @@ export default function ScrollingFeatures() {
   return (
     <div className="relative w-full bg-primary overflow-hidden" style={{ height: "80px" }}>
       {/* Background Image (Top Border Effect) */}
-      <div className="absolute top-0 left-0 w-full h-7 bg-no-repeat bg-top bg-cover opacity-100" style={{ backgroundImage: "url('src/assets/line-pattern.png')" }}></div>
+      <div className="absolute top-0 left-0 w-full h-7 bg-no-repeat bg-top bg-cover opacity-100" style={{ backgroundImage: `url(${linePattern})` }}></div>
 
       {/* Infinite Scrolling Container */}
       <motion.div
