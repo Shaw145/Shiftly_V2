@@ -71,7 +71,7 @@ const BookingDetailPage = () => {
   const fetchBookingDetails = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/bookings/${bookingId}`,
+        `https://shiftly-backend.onrender.com/api/bookings/${bookingId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -93,7 +93,7 @@ const BookingDetailPage = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/api/bookings/${bookingId}/cancel`,
+        `https://shiftly-backend.onrender.com/api/bookings/${bookingId}/cancel`,
         {
           method: "PUT",
           headers: {
