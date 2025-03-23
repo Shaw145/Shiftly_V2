@@ -6,7 +6,7 @@ export default function Hero() {
     <section id="hero" className="relative w-full mb-7 lg:mb-40 flex flex-col md:flex-row items-center justify-between px-17 py-15 pt-30 md:pt-30 lg:pt-60  bg-white overflow-hidden">
       {/* Background World Map */}
       <img
-        src="src/assets/worldmap.png"
+        src="/src/assets/worldmap.png"
         alt="World Map"
         className="absolute top-30 left-20 w-full h-full object-contain opacity-85"
       />

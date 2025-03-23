@@ -35,7 +35,7 @@ const CalculatePrice = () => {
 
   // Calculate price based on inputs
   const calculatePrice = () => {
-    if (distance < 1){
+    if (distance < 1) {
       setDistanceError("Please enter a valid distance greater than 1 km.");
       return;
     }
@@ -49,73 +49,71 @@ const CalculatePrice = () => {
     setDistanceError("");
     setVehicleError("");
 
-    // Lookup tables for base fare and cost per km
+    // Base fare based on distance ranges (reduced by 10-15% from priceCalculator)
     const baseFareTable = {
-      mini: [400, 500, 700],
-      tempo: [600, 700, 900],
-      large: [900, 1000, 1300],
-      container: [1200, 1400, 1800],
+      mini: [350, 520, 700], // Reduced from [400, 600, 800]
+      tempo: [520, 700, 870], // Reduced from [600, 800, 1000]
+      large: [870, 950, 1200], // Reduced from [1000, 1100, 1400]
+      container: [1100, 1300, 1650], // Reduced from [1300, 1500, 1900]
     };
 
     const costPerKmTable = {
-      mini: [15, 12, 10],
-      tempo: [20, 17, 15],
-      large: [25, 22, 20],
-      container: [30, 28, 25],
+      mini: [13, 19, 17], // Reduced from [15, 22, 20]
+      tempo: [17, 23, 22], // Reduced from [20, 27, 25]
+      large: [30, 28, 26], // Reduced from [35, 32, 30]
+      container: [35, 33, 30], // Reduced from [40, 38, 35]
     };
 
-    // Determine the index based on distance
-    let index = 0;
-    if (distance > 50 && distance <= 300) index = 1;
-    else if (distance > 300) index = 2;
+    // Determine rate index based on distance
+    let rateIndex = 0;
+    if (distance > 50 && distance <= 300) rateIndex = 1;
+    else if (distance > 300) rateIndex = 2;
 
-    // Base Fare
-    const baseFare = baseFareTable[vehicleType][index];
+    // Base calculations
+    const baseFare = baseFareTable[vehicleType][rateIndex];
+    const costPerKm = costPerKmTable[vehicleType][rateIndex];
+    const distanceCharge = costPerKm * distance;
 
-    // Cost per KM
-    const costPerKm = costPerKmTable[vehicleType][index];
-
-    // Goods Category Fee
+    // Goods handling fee (reduced by ~10%)
     const goodsFeeTable = {
-      small: 200,
-      medium: 400,
-      large: 600,
-      light: 600,
-      heavy: 1200,
+      small: 270, // Reduced from 300
+      medium: 450, // Reduced from 500
+      large: 720, // Reduced from 800
+      light: 720, // Reduced from 800
+      heavy: 1350, // Reduced from 1500
     };
     const goodsFee = goodsFeeTable[goodsType];
 
-    // Toll Fees (Assumed ₹5/km for simplicity)
-    const tollFees = distance * 5;
+    // Urgency multiplier
+    const urgencyMultiplier = {
+      standard: 1,
+      express: 1.1, // 10% extra
+      priority: 1.2, // 20% extra
+    }[urgency];
 
-    // Urgency Charge
-    const urgencyChargeTable = {
-      standard: 0,
-      express: 0.1,
-      priority: 0.2,
-    };
-    const urgencyCharge = urgencyChargeTable[urgency];
-
-    // Insurance
-    const insuranceCostTable = {
+    // Insurance cost
+    const insuranceCost = {
       none: 0,
       basic: 100,
       full: 200,
-    };
-    const insuranceCost = insuranceCostTable[insurance];
+    }[insurance];
 
-    // Total Price
-    const totalPrice =
-      baseFare +
-      costPerKm * distance +
-      goodsFee +
-      tollFees +
-      (baseFare + costPerKm * distance + goodsFee + tollFees) * urgencyCharge +
+    // Calculate subtotal
+    const subtotal =
+      (baseFare + distanceCharge + goodsFee) * urgencyMultiplier +
       insuranceCost;
 
-    // Price Range (±10%)
-    const lowerRange = Math.floor(totalPrice * 0.9);
-    const upperRange = Math.ceil(totalPrice * 1.1);
+    // Add GST (18%)
+    const gstAmount = subtotal * 0.18;
+    const totalPrice = subtotal + gstAmount;
+
+    // Round to nearest lower 100
+    const roundedTotal = Math.floor(totalPrice / 100) * 100;
+
+    // Calculate range (slightly smaller range to show more certainty)
+    const lowerRange = roundedTotal;
+    const upperRange =
+      roundedTotal + (goodsType.includes("household") ? 1500 : 2000); // Reduced range spread
 
     setPriceRange({ lower: lowerRange, upper: upperRange });
     setIsModalOpen(true);
@@ -189,11 +187,21 @@ const CalculatePrice = () => {
                 onChange={(e) => setGoodsType(e.target.value)}
                 className="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-red-500 bg-white text-black"
               >
-                <option value="small">Small Household Items (e.g. Appliances, Boxes)</option>
-                <option value="medium">Medium Household Items (e.g. Furniture, Beds)</option>
-                <option value="large">Large Household Items (e.g. Entire Home Shifting)</option>
-                <option value="light">Light Industrial Goods (e.g. Office Equipment)</option>
-                <option value="heavy">Heavy Industrial Goods (e.g. Machinery, Raw Materials)</option>
+                <option value="small">
+                  Small Household Items (e.g. Appliances, Boxes)
+                </option>
+                <option value="medium">
+                  Medium Household Items (e.g. Furniture, Beds)
+                </option>
+                <option value="large">
+                  Large Household Items (e.g. Entire Home Shifting)
+                </option>
+                <option value="light">
+                  Light Industrial Goods (e.g. Office Equipment)
+                </option>
+                <option value="heavy">
+                  Heavy Industrial Goods (e.g. Machinery, Raw Materials)
+                </option>
               </select>
             </div>
 
@@ -207,10 +215,18 @@ const CalculatePrice = () => {
                 onChange={(e) => setVehicleType(e.target.value)}
                 className="w-full p-2 border border-gray-400 rounded-lg focus:outline-none focus:border-red-500 bg-white text-black"
               >
-                <option value="mini">Mini Truck (Tata Ace - Small Loads)</option>
-                <option value="tempo">Tempo (Mahindra Bolero Pickup - Medium Loads)</option>
-                <option value="large">Large Truck (14ft Truck - Heavy Loads)</option>
-                <option value="container">Container Truck (20-32ft Trucks - Bulk Transport)</option>
+                <option value="mini">
+                  Mini Truck (Tata Ace - Small Loads)
+                </option>
+                <option value="tempo">
+                  Tempo (Mahindra Bolero Pickup - Medium Loads)
+                </option>
+                <option value="large">
+                  Large Truck (14ft Truck - Heavy Loads)
+                </option>
+                <option value="container">
+                  Container Truck (20-32ft Trucks - Bulk Transport)
+                </option>
               </select>
               {vehicleError && (
                 <p className="text-red-500 text-sm mt-2">{vehicleError}</p>
@@ -307,84 +323,85 @@ const CalculatePrice = () => {
 
           {/* Note */}
           <p className="text-gray-600 text-sm lg:text-base mt-4">
-            *The generated price is an estimation only. The actual price may vary.
+            *The generated price is an estimation only. The actual price may
+            vary.
           </p>
         </div>
       </div>
 
       {/* Result Modal */}
       {isModalOpen && (
-      <div className="fixed inset-0 flex items-center justify-center bg-[rgba(20,20,20,0.5)] z-500 overflow-hidden">
-        <motion.div
-          className="bg-white p-8 rounded-lg shadow-lg w-75 md:w-85 lg:w-96"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <h3 className="text-2xl font-bold text-gray-900 mb-4">
-            Estimated Price
-          </h3>
-
-          {/* Display User-Selected Details */}
-          <div className="space-y-4 text-gray-700">
-            <p>
-              <span className="font-semibold">Distance:</span> {distance} km
-            </p>
-            <p>
-              <span className="font-semibold">Type of Goods:</span>{" "}
-              {goodsType === "small"
-                ? "Small Household Items"
-                : goodsType === "medium"
-                ? "Medium Household Items"
-                : goodsType === "large"
-                ? "Large Household Items"
-                : goodsType === "light"
-                ? "Light Industrial Goods"
-                : "Heavy Industrial Goods"}
-            </p>
-            <p>
-              <span className="font-semibold">Vehicle Type:</span>{" "}
-              {vehicleType === "mini"
-                ? "Mini Truck"
-                : vehicleType === "tempo"
-                ? "Tempo"
-                : vehicleType === "large"
-                ? "Large Truck"
-                : "Container Truck"}
-            </p>
-            <p>
-              <span className="font-semibold">Urgency Level:</span>{" "}
-              {urgency === "standard"
-                ? "Standard"
-                : urgency === "express"
-                ? "Express"
-                : "Priority"}
-            </p>
-            <p>
-              <span className="font-semibold">Insurance Option:</span>{" "}
-              {insurance === "none"
-                ? "No Insurance"
-                : insurance === "basic"
-                ? "Basic"
-                : "Full Coverage"}
-            </p>
-            <p>
-              <span className="font-semibold block">Price Range:</span>
-              <span className="block text-2xl lg:text-3xl font-bold mt-1 text-center">
-                ₹{priceRange.lower} - ₹{priceRange.upper}
-              </span>
-            </p>
-          </div>
-
-          {/* Close Button */}
-          <button
-            onClick={() => setIsModalOpen(false)}
-            className="mt-6 w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-700 transition-colors duration-300 cursor-pointer"
+        <div className="fixed inset-0 flex items-center justify-center bg-[rgba(20,20,20,0.5)] z-500 overflow-hidden">
+          <motion.div
+            className="bg-white p-8 rounded-lg shadow-lg w-75 md:w-85 lg:w-96"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
           >
-            Close
-          </button>
-        </motion.div>
-      </div>
+            <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              Estimated Price
+            </h3>
+
+            {/* Display User-Selected Details */}
+            <div className="space-y-4 text-gray-700">
+              <p>
+                <span className="font-semibold">Distance:</span> {distance} km
+              </p>
+              <p>
+                <span className="font-semibold">Type of Goods:</span>{" "}
+                {goodsType === "small"
+                  ? "Small Household Items"
+                  : goodsType === "medium"
+                  ? "Medium Household Items"
+                  : goodsType === "large"
+                  ? "Large Household Items"
+                  : goodsType === "light"
+                  ? "Light Industrial Goods"
+                  : "Heavy Industrial Goods"}
+              </p>
+              <p>
+                <span className="font-semibold">Vehicle Type:</span>{" "}
+                {vehicleType === "mini"
+                  ? "Mini Truck"
+                  : vehicleType === "tempo"
+                  ? "Tempo"
+                  : vehicleType === "large"
+                  ? "Large Truck"
+                  : "Container Truck"}
+              </p>
+              <p>
+                <span className="font-semibold">Urgency Level:</span>{" "}
+                {urgency === "standard"
+                  ? "Standard"
+                  : urgency === "express"
+                  ? "Express"
+                  : "Priority"}
+              </p>
+              <p>
+                <span className="font-semibold">Insurance Option:</span>{" "}
+                {insurance === "none"
+                  ? "No Insurance"
+                  : insurance === "basic"
+                  ? "Basic"
+                  : "Full Coverage"}
+              </p>
+              <p>
+                <span className="font-semibold block">Price Range:</span>
+                <span className="block text-2xl lg:text-3xl font-bold mt-1 text-center">
+                  ₹{priceRange.lower} - ₹{priceRange.upper}
+                </span>
+              </p>
+            </div>
+
+            {/* Close Button */}
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="mt-6 w-full bg-red-500 text-white p-2 rounded-lg hover:bg-red-700 transition-colors duration-300 cursor-pointer"
+            >
+              Close
+            </button>
+          </motion.div>
+        </div>
       )}
     </motion.section>
   );
