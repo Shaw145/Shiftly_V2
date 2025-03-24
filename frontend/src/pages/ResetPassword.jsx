@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import authBg from "../assets/auth-bg.jpg";
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -10,18 +11,28 @@ const ResetPassword = () => {
   const location = useLocation();
   const token = new URLSearchParams(location.search).get("token");
 
+  // Redirect if no token in URL
+  useEffect(() => {
+    if (!token) {
+      navigate("/forgot-password", { replace: true });
+    }
+  }, [token, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true); // Start loading
 
     try {
-      const response = await fetch("https://shiftly-backend.onrender.com/api/auth/reset-password", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ token, newPassword }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/reset-password`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ token, newPassword }),
+        }
+      );
 
       const data = await response.json();
 
@@ -41,16 +52,23 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('src/assets/auth-bg.jpg')" }}>
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{ backgroundImage: `url(${authBg})` }}
+    >
       <div className="w-full max-w-md bg-[#151616af] p-8 rounded-lg shadow-lg mx-4 mt-29 mb-8">
-        <h1 className="text-3xl font-bold text-center mb-6 text-white">Reset Password</h1>
+        <h1 className="text-3xl font-bold text-center mb-6 text-white">
+          Reset Password
+        </h1>
 
         {message && <p className="text-green-500 text-sm mb-4">{message}</p>}
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-base font-medium text-white">New Password</label>
+            <label className="block text-base font-medium text-white">
+              New Password
+            </label>
             <input
               type="password"
               value={newPassword}
