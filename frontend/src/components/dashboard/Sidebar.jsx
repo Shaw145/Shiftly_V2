@@ -9,7 +9,7 @@ import {
   FaSignOutAlt,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import useSwipe from "../../hooks/useSwipe";
+import useSwipe from "../../utils/useSwipe";
 
 const Sidebar = forwardRef(({ isSidebarOpen, toggleSidebar }, ref) => {
   const navigate = useNavigate();
