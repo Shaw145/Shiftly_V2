@@ -4,8 +4,8 @@ import notFoundImage from "../assets/404.png";
 
 const NotFound = () => {
   return (
-    <div className="h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 px-4 overflow-hidden">
-      <div className="max-w-3xl w-full text-center">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 px-4 overflow-hidden pt-20">
+      <div className="max-w-3xl w-full text-center py-8">
         {/* Animated Image */}
         <motion.div
           initial={{ y: -20 }}
@@ -20,7 +20,7 @@ const NotFound = () => {
           <img
             src={notFoundImage}
             alt="404 Error"
-            className="w-full max-w-xl mx-auto"
+            className="w-full max-w-xl mx-auto px-4"
           />
         </motion.div>
 
@@ -55,10 +55,7 @@ const NotFound = () => {
             </Link>
           </motion.div>
 
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Link
               to="/contact"
               className="inline-block bg-gray-200 text-gray-800 px-8 py-4 rounded-lg font-semibold hover:bg-gray-300 transition-colors duration-300"
