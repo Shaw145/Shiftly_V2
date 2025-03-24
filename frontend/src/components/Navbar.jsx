@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaBars, FaTimes, FaTruck, FaUser } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useLocation, Link } from "react-router-dom";
@@ -7,13 +7,38 @@ import logoLight from "../assets/logo-light.png";
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const menuRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        isMenuOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        !buttonRef.current.contains(event.target)
+      ) {
+        setIsMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const token = localStorage.getItem("token") || sessionStorage.getItem("token");
-  const isLoginSignupPage = location.pathname === "/login" || location.pathname === "/signup" ||location.pathname === "/verify-email";
+  const token =
+    localStorage.getItem("token") || sessionStorage.getItem("token");
+  const isLoginSignupPage =
+    location.pathname === "/login" ||
+    location.pathname === "/signup" ||
+    location.pathname === "/verify-email";
 
   return (
     <nav className="w-full h-20 flex items-center justify-between bg-white shadow-md border-b border-gray-200 z-50 fixed top-0 left-0">
@@ -101,14 +126,23 @@ export default function Navbar() {
 
       {/* Hamburger Menu for Mobile */}
       <div className="lg2:hidden pr-8">
-        <button onClick={toggleMenu} className="text-dark focus:outline-none">
-          {isMenuOpen ? <FaTimes className="text-2xl" /> : <FaBars className="text-2xl" />}
+        <button
+          ref={buttonRef}
+          onClick={toggleMenu}
+          className="text-dark focus:outline-none"
+        >
+          {isMenuOpen ? (
+            <FaTimes className="text-2xl" />
+          ) : (
+            <FaBars className="text-2xl" />
+          )}
         </button>
       </div>
 
       {/* Mobile Menu */}
       {isMenuOpen && (
         <motion.div
+          ref={menuRef}
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
@@ -116,6 +150,7 @@ export default function Navbar() {
         >
           <a
             href="/"
+            onClick={() => setIsMenuOpen(false)}
             className="block px-6 py-3 text-dark font-bold text-lg hover:bg-accent relative group"
           >
             Home
@@ -123,6 +158,7 @@ export default function Navbar() {
           </a>
           <a
             href="/about"
+            onClick={() => setIsMenuOpen(false)}
             className="block px-6 py-3 text-dark font-bold text-lg hover:bg-accent relative group"
           >
             About Us
@@ -130,6 +166,7 @@ export default function Navbar() {
           </a>
           <a
             href="/services"
+            onClick={() => setIsMenuOpen(false)}
             className="block px-6 py-3 text-dark font-bold text-lg hover:bg-accent relative group"
           >
             Our Services
@@ -137,6 +174,7 @@ export default function Navbar() {
           </a>
           <a
             href="/#CalculatePrice"
+            onClick={() => setIsMenuOpen(false)}
             className="block px-6 py-3 text-dark font-bold text-lg hover:bg-accent relative group"
           >
             Calculate Price
@@ -144,6 +182,7 @@ export default function Navbar() {
           </a>
           <a
             href="/contact"
+            onClick={() => setIsMenuOpen(false)}
             className="block px-6 py-3 text-dark font-bold text-lg hover:bg-accent relative group"
           >
             Contact Us
@@ -153,7 +192,7 @@ export default function Navbar() {
           {!isLoginSignupPage && (
             <div className="mt-4 px-6 mb-4">
               {token ? (
-                <Link to="/dashboard">
+                <Link to="/dashboard" onClick={() => setIsMenuOpen(false)}>
                   <motion.button
                     whileHover={{ x: 10, backgroundColor: "#04223E" }}
                     transition={{ duration: 0.3 }}
@@ -164,7 +203,7 @@ export default function Navbar() {
                   </motion.button>
                 </Link>
               ) : (
-                <Link to="/login">
+                <Link to="/login" onClick={() => setIsMenuOpen(false)}>
                   <motion.button
                     whileHover={{ x: 10, backgroundColor: "#04223E" }}
                     transition={{ duration: 0.3 }}
