@@ -15,29 +15,51 @@ const Signup = () => {
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [error, setError] = useState("");
   const [isUsernameAvailable, setIsUsernameAvailable] = useState(null);
-  const [isLoading, setIsLoading] = useState(false); 
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Check username availability in real-time
+  // Enhanced username availability check
   useEffect(() => {
-    if (username) {
+    if (username && username.length >= 3) {
+      // Only check if username is at least 3 characters
       const checkUsername = async () => {
         try {
-          const response = await fetch(`https://shiftly-backend.onrender.com/api/auth/check-username?username=${username}`);
+          const response = await fetch(
+            `${
+              import.meta.env.VITE_BACKEND_URL
+            }/api/auth/check-username?username=${username}`
+          );
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
           const data = await response.json();
           setIsUsernameAvailable(data.isAvailable);
+          setUsernameError(""); // Clear any previous errors
         } catch (error) {
           console.error("Error checking username:", error);
+          // Don't update availability state on error, just clear the error
+          setUsernameError("");
         }
       };
 
+      // Use debounce to avoid too many requests
       const debounceTimer = setTimeout(() => {
         checkUsername();
-      }, 500); // Debounce to avoid too many requests
+      }, 500);
 
-      return () => clearTimeout(debounceTimer);
+      return () => {
+        clearTimeout(debounceTimer);
+        // Cleanup any pending state updates
+        setIsUsernameAvailable(null);
+        setUsernameError("");
+      };
     } else {
-      setIsUsernameAvailable(null); // Reset if username is empty
+      setIsUsernameAvailable(null);
+      setUsernameError(
+        username.length > 0 && username.length < 3
+          ? "Username must be at least 3 characters"
+          : ""
+      );
     }
   }, [username]);
 
@@ -45,7 +67,9 @@ const Signup = () => {
     const hasNumber = /\d/.test(value);
     const hasLetter = /[a-zA-Z]/.test(value);
     if (value.length < 6 || !hasNumber || !hasLetter) {
-      setPasswordError("Password must be at least 6 characters with 1 number and 1 letter");
+      setPasswordError(
+        "Password must be at least 6 characters with 1 number and 1 letter"
+      );
     } else {
       setPasswordError("");
     }
@@ -77,19 +101,22 @@ const Signup = () => {
     setIsLoading(true); // Start loading
 
     try {
-      const response = await fetch("https://shiftly-backend.onrender.com/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          fullName,
-          username,
-          email,
-          password,
-          confirmPassword,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/signup`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            fullName,
+            username,
+            email,
+            password,
+            confirmPassword,
+          }),
+        }
+      );
 
       const data = await response.json();
 
@@ -107,9 +134,14 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: `url(${authBg})` }}>
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{ backgroundImage: `url(${authBg})` }}
+    >
       <div className="w-full max-w-md bg-[#151616af] p-8 rounded-lg shadow-lg mx-4 mt-29 mb-8">
-        <h1 className="text-3xl font-bold text-center mb-6 text-white">Sign Up</h1>
+        <h1 className="text-3xl font-bold text-center mb-6 text-white">
+          Sign Up
+        </h1>
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
@@ -121,7 +153,9 @@ const Signup = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-base font-medium text-white">Full Name</label>
+            <label className="block text-base font-medium text-white">
+              Full Name
+            </label>
             <input
               type="text"
               value={fullName}
@@ -131,7 +165,9 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label className="block text-base font-medium text-white">Username</label>
+            <label className="block text-base font-medium text-white">
+              Username
+            </label>
             <input
               type="text"
               value={username}
@@ -156,7 +192,9 @@ const Signup = () => {
             )}
           </div>
           <div>
-            <label className="block text-base font-medium text-white">Email</label>
+            <label className="block text-base font-medium text-white">
+              Email
+            </label>
             <input
               type="email"
               value={email}
@@ -166,7 +204,9 @@ const Signup = () => {
             />
           </div>
           <div>
-            <label className="block text-base font-medium text-white">Password</label>
+            <label className="block text-base font-medium text-white">
+              Password
+            </label>
             <input
               type="password"
               value={password}
@@ -189,7 +229,9 @@ const Signup = () => {
             )}
           </div>
           <div>
-            <label className="block text-base font-medium text-white">Confirm Password</label>
+            <label className="block text-base font-medium text-white">
+              Confirm Password
+            </label>
             <input
               type="password"
               value={confirmPassword}
@@ -226,8 +268,12 @@ const Signup = () => {
               </a>
             </span>
           </div>
-          <button type="submit" className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-700 flex items-center justify-center cursor-pointer" disabled={isLoading}>
-          {isLoading ? (
+          <button
+            type="submit"
+            className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-700 flex items-center justify-center cursor-pointer"
+            disabled={isLoading}
+          >
+            {isLoading ? (
               <div className="flex items-center">
                 <svg
                   className="animate-spin h-5 w-5 mr-3 text-white"
