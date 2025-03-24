@@ -1,5 +1,6 @@
 import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
+import authBg from "../assets/auth-bg.jpg";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ const ForgotPassword = () => {
     setIsLoading(true); // Start loading
 
     try {
-      const response = await fetch("https://shiftly-backend.onrender.com/api/auth/forgot-password", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/api/auth/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,7 +39,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('src/assets/auth-bg.jpg')" }}>
+    <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: `url(${authBg})`}}>
       <div className="w-full max-w-md bg-[#151616af] p-8 rounded-lg shadow-lg mx-4 mt-29 mb-8">
         <h1 className="text-3xl font-bold text-center mb-6 text-white">Forgot Password</h1>
 
