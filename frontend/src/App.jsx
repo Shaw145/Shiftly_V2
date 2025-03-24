@@ -19,41 +19,55 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import MyBookings from "./pages/MyBookings";
 import BookingDetailPage from "./pages/BookingDetailPage";
 import NotFound from "./pages/NotFound";
+import ConditionalRoute from "./components/ConditionalRoute";
+import { isDashboardPath } from "./utils/routeUtils";
 
 const AppWrapper = () => {
   const location = useLocation();
-  const isDashboardRoute =
-    location.pathname.startsWith("/dashboard") ||
-    location.pathname.startsWith("/book-transport") ||
-    location.pathname.startsWith("/my-bookings");
 
-  // Check if the current route exists in our defined routes
-  // const isNotFoundPage = ![
-  //   "/",
-  //   "/login",
-  //   "/signup",
-  //   "/verify-email",
-  //   "/forgot-password",
-  //   "/reset-password",
-  //   "/dashboard",
-  //   "/book-transport",
-  //   "/my-bookings",
-  // ].includes(location.pathname);
-  const isNotFoundPage = location.pathname === "/404";
+  // Simplified dashboard route check
+  const isDashboardRoute = isDashboardPath(location.pathname);
+
+  // Get email and token from URL for verification
+  const verifyEmail = new URLSearchParams(location.search).get("email");
+  const resetToken = new URLSearchParams(location.search).get("token");
 
   return (
     <>
-      {!isDashboardRoute && !isNotFoundPage && <Navbar />}
+      {/* Show Navbar for all routes except dashboard routes */}
+      {!isDashboardRoute && <Navbar />}
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
 
-        {/* Protected Routes */}
+        {/* Protected Email Verification Route */}
+        <Route
+          path="/verify-email"
+          element={
+            <ConditionalRoute
+              element={<VerifyEmail />}
+              condition={!!verifyEmail}
+              redirectTo="/signup"
+            />
+          }
+        />
+
+        {/* Protected Password Reset Route */}
+        <Route
+          path="/reset-password"
+          element={
+            <ConditionalRoute
+              element={<ResetPassword />}
+              condition={!!resetToken}
+              redirectTo="/forgot-password"
+            />
+          }
+        />
+
+        {/* Protected Dashboard Routes */}
         <Route
           element={
             <ProtectedRoute>
@@ -61,27 +75,20 @@ const AppWrapper = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/book-transport" element={<BookTransport />} />
-          <Route path="/my-bookings" element={<MyBookings />} />
+          <Route path="/dashboard/*" element={<Dashboard />} />
+          <Route path="/book-transport/*" element={<BookTransport />} />
+          <Route path="/my-bookings/*" element={<MyBookings />} />
           <Route
             path="/my-bookings/:bookingId"
             element={<BookingDetailPage />}
           />
-          {/* <Route 
-            path="/new-protected-path" 
-            element={
-              <ProtectedRoute>
-                <YourComponent />
-              </ProtectedRoute>
-            } 
-          /> */}
         </Route>
 
         {/* 404 Page - This route will catch all unmatched routes */}
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {!isDashboardRoute && !isNotFoundPage && <Footer />}
+      {/* Show Footer for all routes except dashboard routes */}
+      {!isDashboardRoute && <Footer />}
     </>
   );
 };
