@@ -1,31 +1,42 @@
 // frontend/src/pages/VerifyEmail.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import authBg from "../assets/auth-bg.jpg";
 
 const VerifyEmail = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false); // Add loading state
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const email = new URLSearchParams(location.search).get("email");
 
+  // Redirect if no email in URL
+  useEffect(() => {
+    if (!email) {
+      navigate("/signup", { replace: true });
+    }
+  }, [email, navigate]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const otpCode = otp.join("");
-    setIsLoading(true); // Start loading
+    setIsLoading(true);
 
     try {
-      const response = await fetch("https://shiftly-backend.onrender.com/api/auth/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email,
-          otp: otpCode,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/api/auth/verify-otp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            otp: otpCode,
+          }),
+        }
+      );
 
       const text = await response.text();
       console.log("Response:", text);
@@ -37,12 +48,12 @@ const VerifyEmail = () => {
       const data = JSON.parse(text);
       localStorage.setItem("token", data.token);
       localStorage.setItem("fullName", data.fullName);
-      navigate("/dashboard"); // Redirect to dashboard
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error:", error);
       setError(error.message);
     } finally {
-      setIsLoading(false); // Stop loading
+      setIsLoading(false);
     }
   };
 
@@ -51,18 +62,37 @@ const VerifyEmail = () => {
     newOtp[index] = value;
     setOtp(newOtp);
 
-    // Auto-focus to next input
     if (value && index < 5) {
       document.getElementById(`otp-${index + 1}`).focus();
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('src/assets/auth-bg.jpg')" }}>
+    <div
+      className="min-h-screen flex items-center justify-center bg-cover bg-center"
+      style={{ backgroundImage: `url(${authBg})` }}
+    >
       <div className="w-full max-w-md bg-[#151616af] p-8 rounded-lg shadow-lg mx-4 mt-29 mb-8">
-        <h1 className="text-3xl font-bold text-center mb-6 text-white">Verify Email</h1>
+        <h1 className="text-3xl font-bold text-center mb-6 text-white">
+          Verify Email
+        </h1>
 
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+        {/* Email Display */}
+        <div className="text-center mb-6">
+          <p className="text-gray-300 text-sm mb-1">
+            We've sent a verification code to:
+          </p>
+          <p className="text-white font-medium break-all">
+            {email || "your email"}
+          </p>
+          <p className="text-gray-400 text-xs mt-1">
+            Please check your inbox and enter the code below
+          </p>
+        </div>
+
+        {error && (
+          <p className="text-red-500 text-sm mb-4 text-center">{error}</p>
+        )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex justify-center space-x-2">
@@ -74,15 +104,15 @@ const VerifyEmail = () => {
                 maxLength="1"
                 value={digit}
                 onChange={(e) => handleChange(index, e.target.value)}
-                className="w-12 h-12 text-center text-2xl border border-gray-300 rounded-lg text-white"
+                className="w-12 h-12 text-center text-2xl border border-gray-300 rounded-lg text-white bg-transparent focus:border-red-500 focus:ring-1 focus:ring-red-500"
                 required
               />
             ))}
           </div>
           <button
             type="submit"
-            className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-700 flex items-center justify-center cursor-pointer"
-            disabled={isLoading} // Disable button while loading
+            className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-700 flex items-center justify-center cursor-pointer transition-colors duration-300"
+            disabled={isLoading}
           >
             {isLoading ? (
               <div className="flex items-center">
