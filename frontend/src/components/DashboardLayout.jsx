@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import TopNavbar from "./dashboard/TopNavbar";
 import Sidebar from "./dashboard/Sidebar";
-import useSwipe from "../hooks/useSwipe";
+import useSwipe from "../utils/useSwipe";
 
 const DashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
