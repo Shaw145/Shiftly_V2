@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, forwardRef } from "react";
 import { FaBars, FaBell } from "react-icons/fa";
 import SearchBar from "./SearchBar";
 import NotificationModal from "./NotificationModal";
@@ -7,7 +7,7 @@ import logo from "../../assets/Shiftly_logo.png";
 import profilePic from "../../assets/profile.png";
 
 // eslint-disable-next-line react/prop-types
-const TopNavbar = ({ toggleSidebar }) => {
+const TopNavbar = forwardRef(({ toggleSidebar }, ref) => {
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [notificationCount, setNotificationCount] = useState(3); // Dynamic notification count
@@ -39,7 +39,7 @@ const TopNavbar = ({ toggleSidebar }) => {
       <div className="flex items-center justify-between px-4 md:px-8 py-4">
         {/* Left Side: Hamburger Icon (Mobile) and Logo */}
         <div className="flex items-center space-x-6">
-          <button onClick={toggleSidebar} className="md:hidden">
+          <button ref={ref} onClick={toggleSidebar} className="md:hidden">
             <FaBars className="w-6 h-6 text-gray-700" />
           </button>
           <div className="hidden md:flex items-center space-x-10">
@@ -114,6 +114,7 @@ const TopNavbar = ({ toggleSidebar }) => {
       </div>
     </header>
   );
-};
+});
 
+TopNavbar.displayName = "TopNavbar";
 export default TopNavbar;
