@@ -55,10 +55,12 @@ const DashboardLayout = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
-  // Add swipe handlers for main content area
+  // Add swipe handlers for main content area with edge detection
   const swipeHandlers = useSwipe(
     () => !isSidebarOpen && toggleSidebar(), // Open on swipe right
-    () => isSidebarOpen && toggleSidebar() // Close on swipe left
+    () => isSidebarOpen && toggleSidebar(), // Close on swipe left
+    50, // threshold
+    20 // edgeSize in pixels
   );
 
   return (
