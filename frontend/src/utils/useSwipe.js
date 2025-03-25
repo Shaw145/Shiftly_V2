@@ -1,37 +1,63 @@
-const useSwipe = (onSwipeRight, onSwipeLeft, threshold = 50) => {
-    let touchStart = null;
-  
-    const onTouchStart = (e) => {
+const useSwipe = (onSwipeRight, onSwipeLeft, threshold = 50, edgeSize = 20) => {
+  let touchStart = null;
+  let touchStartY = null;
+  let isSwiping = false;
+
+  const onTouchStart = (e) => {
+    // For opening sidebar: only register touch if it starts from the left edge
+    // For closing sidebar: register touch anywhere when sidebar is open
+    if (e.touches[0].clientX <= edgeSize || onSwipeLeft) {
       touchStart = e.touches[0].clientX;
-    };
-  
-    const onTouchMove = (e) => {
-      if (!touchStart) return;
-  
-      const currentTouch = e.touches[0].clientX;
-      const diff = currentTouch - touchStart;
-  
-      if (Math.abs(diff) >= threshold) {
-        if (diff > 0) {
-          // Swipe right
-          onSwipeRight?.();
-        } else {
-          // Swipe left
-          onSwipeLeft?.();
-        }
-        touchStart = null;
-      }
-    };
-  
-    const onTouchEnd = () => {
-      touchStart = null;
-    };
-  
-    return {
-      onTouchStart,
-      onTouchMove,
-      onTouchEnd
-    };
+      touchStartY = e.touches[0].clientY;
+      isSwiping = true;
+    }
   };
-  
-  export default useSwipe;
+
+  const onTouchMove = (e) => {
+    if (!touchStart || !isSwiping) return;
+
+    const currentTouch = e.touches[0].clientX;
+    const currentTouchY = e.touches[0].clientY;
+
+    // Calculate horizontal and vertical differences
+    const horizontalDiff = currentTouch - touchStart;
+    const verticalDiff = Math.abs(currentTouchY - touchStartY);
+
+    // If vertical swipe is greater than horizontal, cancel the gesture
+    if (verticalDiff > Math.abs(horizontalDiff)) {
+      touchStart = null;
+      touchStartY = null;
+      isSwiping = false;
+      return;
+    }
+
+    if (Math.abs(horizontalDiff) >= threshold) {
+      if (horizontalDiff > 0) {
+        // Swipe right - only trigger if started from left edge
+        if (touchStart <= edgeSize) {
+          onSwipeRight?.();
+        }
+      } else {
+        // Swipe left - can trigger anywhere when sidebar is open
+        onSwipeLeft?.();
+      }
+      touchStart = null;
+      touchStartY = null;
+      isSwiping = false;
+    }
+  };
+
+  const onTouchEnd = () => {
+    touchStart = null;
+    touchStartY = null;
+    isSwiping = false;
+  };
+
+  return {
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
+  };
+};
+
+export default useSwipe;
